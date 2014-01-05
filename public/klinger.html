@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+    <style>
+      .pretty {
+        background: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>The Game</h1>
+
+    <p>
+      We have a <span class="pretty">awesome</span> game for you below!
+    </p>
+
+    <canvas id="game" width="600" height="400"></canvas>
+    <script>
+
+      var KeyCode = {
+        'left': 37,
+        'right': 39,
+        'up': 38,
+        'down': 40,
+        'isDirection': function(keyCode) {
+          return keyCode >= 37 && keyCode <= 40;
+        }
+      };
+
+      var x = 0, y = 0;
+      function draw(c) {
+        c.fillStyle = "#FF0000";
+        c.fillRect(x,y,10,10);
+      }
+
+      function run() {
+        var board = document.getElementById("game");
+        var c = board.getContext("2d");
+        var stop = false;
+
+        $('body').keydown(function(e) {
+          if (!KeyCode.isDirection(e.keyCode)) {
+            return;
+          }
+          console.log(e);
+          if (e.keyCode === KeyCode.left) {
+            x -= 5;
+          } else if (e.keyCode === KeyCode.right) {
+            x += 5;
+          } else if (e.keyCode === KeyCode.up) {
+            y -= 5;
+          } else if (e.keyCode === KeyCode.down) {
+            y += 5;
+          }
+          return false;
+        });
+
+        var timerId = setInterval(function() {
+          if (stop) {
+            clearInterval(timerId);
+          }
+          else {
+            draw(c);
+          }
+        }, 50);
+      }
+
+      run();
+
+    </script>
+  </body>
+</html>
